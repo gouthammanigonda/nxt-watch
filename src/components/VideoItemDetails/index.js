@@ -25,6 +25,7 @@ import {
   Div2,
   Div3,
   VideoContainer,
+  TestDiv,
 } from './styled'
 
 const apiStatusConstants = {
@@ -69,7 +70,9 @@ class VideoItemDetail extends Component {
         channel: data.video_details.channel,
         description: data.video_details.description,
         id: data.video_details.id,
-        publishedAt: data.video_details.published_at,
+        publishedAt: formatDistanceToNow(
+          new Date(data.video_details.published_at),
+        ),
         thumbnailUrl: data.video_details.thumbnail_url,
         title: data.video_details.title,
         videoUrl: data.video_details.video_url,
@@ -91,8 +94,6 @@ class VideoItemDetail extends Component {
       })
     }
   }
-
-  onClickSaveBTN = () => {}
 
   onClickLikeBtn = () => {
     const {isBtnActiveDislike} = this.state
@@ -140,18 +141,16 @@ class VideoItemDetail extends Component {
       id,
       publishedAt,
     } = videoDetails
+    const {name} = channel
 
     return (
       <BlackAndWhiteContext.Consumer>
         {value => {
           const {isDarkTheme, onAddOrRemoveList} = value
+
           const style = {
             position: 'relative',
             alignSelf: 'flex-start',
-          }
-
-          const style2 = {
-            color: '#4f46e5',
           }
 
           const dataToSaveList = {
@@ -168,7 +167,19 @@ class VideoItemDetail extends Component {
             this.setState(prevState => ({
               isBtnActiveSave: !prevState.isBtnActiveSave,
             }))
-            onAddOrRemoveList(isBtnActiveSave, dataToSaveList)
+            onAddOrRemoveList(
+              !isBtnActiveSave,
+              dataToSaveList,
+              dataToSaveList.id,
+            )
+          }
+
+          const style2 = {
+            color: '#2563eb',
+          }
+
+          const style3 = {
+            color: '#64748b',
           }
 
           return (
@@ -185,25 +196,25 @@ class VideoItemDetail extends Component {
                     color={isDarkTheme ? '#616e7c' : '#7e858e'}
                     style={style}
                   />
-                  <Para isDarkTheme={isDarkTheme}>
-                    {formatDistanceToNow(new Date(publishedAt))}
-                  </Para>
+                  <Para isDarkTheme={isDarkTheme}>{publishedAt}</Para>
                 </Div>
                 <Div align>
                   <Div>
                     <Button onClick={this.onClickLikeBtn}>
                       <AiOutlineLike
-                        color={!isBtnActiveLike ? '#616e7c' : '#4f46e5'}
+                        color={!isBtnActiveLike ? ' #64748b' : '#2563eb'}
                       />
-                      <Para style={isBtnActiveLike ? style2 : null}>Like</Para>
+                      <Para style={isBtnActiveLike ? style2 : style3}>
+                        Like
+                      </Para>
                     </Button>
                   </Div>
                   <Div>
                     <Button onClick={this.onClickDislikeBtn}>
                       <AiOutlineDislike
-                        color={!isBtnActiveDislike ? '#616e7c' : '#4f46e5'}
+                        color={!isBtnActiveDislike ? '#64748b' : '#2563eb'}
                       />
-                      <Para style={isBtnActiveDislike ? style2 : null}>
+                      <Para style={isBtnActiveDislike ? style2 : style3}>
                         Dislike
                       </Para>
                     </Button>
@@ -211,10 +222,10 @@ class VideoItemDetail extends Component {
                   <Div>
                     <Button onClick={onClickSaveBTN}>
                       <MdPlaylistAdd
-                        color={!isBtnActiveSave ? '#616e7c' : '#4f46e5'}
+                        color={!isBtnActiveSave ? '#64748b' : '#2563eb'}
                         size={18}
                       />
-                      <Para2 style={isBtnActiveSave ? style2 : null}>
+                      <Para2 style={isBtnActiveSave ? style2 : style3}>
                         {isBtnActiveSave ? 'Saved' : 'Save'}
                       </Para2>
                     </Button>
@@ -224,11 +235,11 @@ class VideoItemDetail extends Component {
               <Hrline />
               <Div>
                 <Div2>
-                  <Image src={channel.profileImageUrl} />
+                  <Image src={channel.profileImageUrl} alt="channel logo" />
                 </Div2>
                 <Div2>
                   <Div3>
-                    <Para isDarkTheme={isDarkTheme}>{channel.name}</Para>
+                    <Para isDarkTheme={isDarkTheme}>{name}</Para>
                     <Para isDarkTheme={isDarkTheme}>
                       {channel.subscriberCount}
                     </Para>
@@ -247,7 +258,11 @@ class VideoItemDetail extends Component {
     )
   }
 
-  renderFailureView = () => <FailureView />
+  onReset = () => {
+    this.getVideoDetails()
+  }
+
+  renderFailureView = () => <FailureView onReset={this.onReset} />
 
   renderLoadingView = () => <LoaderView />
 
@@ -271,7 +286,7 @@ class VideoItemDetail extends Component {
         {value => {
           const {isDarkTheme} = value
           return (
-            <div>
+            <TestDiv data-testid="videoItemDetails" isDarkTheme={isDarkTheme}>
               <Header />
               <MainContainer>
                 <SideBar />
@@ -279,7 +294,7 @@ class VideoItemDetail extends Component {
                   {this.renderViews()}
                 </ItemContainer>
               </MainContainer>
-            </div>
+            </TestDiv>
           )
         }}
       </BlackAndWhiteContext.Consumer>

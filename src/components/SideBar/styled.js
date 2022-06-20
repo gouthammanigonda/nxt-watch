@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
-export const Container2 = styled.div`
+export const Container2 = styled.nav`
   background-color: ${props => (props.isDarkTheme ? '#212121' : null)};
   width: 20%;
-
+  margin-left: 0px;
   padding: 0px 20px;
 `
 export const Container3 = styled.div`
@@ -13,12 +13,16 @@ export const Container3 = styled.div`
   justify-content: space-between;
 `
 
-export const SubContainer = styled.div``
+export const SubContainer = styled.ul`
+  margin-left: 0px;
+  padding-left: 0px;
+`
 
-export const Div = styled.div`
+export const Div = styled.li`
   display: flex;
   align-items: center;
   gap: 15px;
+  list-style-type: none;
 `
 
 export const Para = styled.p`
@@ -28,7 +32,7 @@ export const Para = styled.p`
   font-weight: 400;
   margin-left: 5px;
 `
-export const Heading = styled.h1`
+export const Heading = styled.p`
   font-family: 'Roboto';
   font-size: 20px;
   color: ${props => (props.isDarkTheme ? 'white' : 'black')};

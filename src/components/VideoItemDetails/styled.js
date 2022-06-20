@@ -4,7 +4,7 @@ export const MainContainer = styled.div`
   display: flex;
 `
 export const ItemContainer = styled.div`
-  background-color: ${props => (props.isDarkTheme ? 'black' : '#ebebeb')};
+  background-color: ${props => (props.isDarkTheme ? '#0f0f0f' : '#f9f9f9')};
   padding: 30px;
   width: 80%;
 `
@@ -47,7 +47,7 @@ export const Button = styled.button`
 export const Para2 = styled.p`
   font-family: 'Roboto';
   font-size: 13px;
-  color: ${props => (!props.isDarkTheme ? '#616e7c' : '#4f46e5')};
+  color: ${props => (!props.isDarkTheme ? '#64748b' : '#2563eb')};
 
   margin-top: 0px;
 `
@@ -58,4 +58,7 @@ export const Div3 = styled.div``
 export const VideoContainer = styled.div`
   height: 500px;
   width: 100%;
+`
+export const TestDiv = styled.div`
+  background-color: ${props => (props.isDarkTheme ? '#0f0f0f' : '#f9f9f9')};
 `

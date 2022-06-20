@@ -8,7 +8,7 @@ const LoaderView = () => (
     {value => {
       const {isDarkTheme} = value
       return (
-        <FlexCenter>
+        <FlexCenter data-testid="loader">
           <Loader type="ThreeDots" color="#00BFFF" height={50} width={50} />
         </FlexCenter>
       )

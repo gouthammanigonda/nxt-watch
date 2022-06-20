@@ -11,9 +11,9 @@ export const FailView = styled.div`
 export const Image = styled.img`
   width: 500px;
 `
-export const Heading = styled.p`
+export const Heading = styled.h1`
   font-family: 'Roboto';
-  font-size: ${props => (props.fail ? '25px' : '15px')};
+  font-size: 20px;
   margin-top: 0px;
   color: ${props => (props.isDarkTheme ? 'white' : 'null')};
   text-decoration: none;

@@ -1,7 +1,7 @@
+import {Component} from 'react'
 import {HiFire} from 'react-icons/hi'
 import {Link} from 'react-router-dom'
 import {VscDebugStackframeDot} from 'react-icons/vsc'
-import {formatDistanceToNow} from 'date-fns'
 
 import Header from '../Header'
 import SideBar from '../SideBar'
@@ -20,10 +20,12 @@ import {
   Heading2,
   Para,
   NoResult,
+  SaveListContainer,
+  TestDiv,
 } from './styled'
 
-const SavedVideos = () => {
-  const renderResult = () => (
+class SavedVideos extends Component {
+  renderResult = () => (
     <BlackAndWhiteContext.Consumer>
       {value => {
         const {isDarkTheme, saveList} = value
@@ -44,18 +46,18 @@ const SavedVideos = () => {
                   publishedAt,
                   title,
                   name,
-                  subscriberCount,
+
                   viewCount,
                 } = each
 
                 return (
                   <Link to={`/videos/${id}`} className="link">
-                    <ListItem isDarkTheme={isDarkTheme}>
+                    <ListItem key={id} isDarkTheme={isDarkTheme}>
                       <Div2>
-                        <Image src={thumbnailUrl} />
+                        <Image src={thumbnailUrl} alt="video thumbnail" />
                       </Div2>
 
-                      <Div2>
+                      <Div2 flexstart>
                         <Heading2 small isDarkTheme={isDarkTheme}>
                           {title}
                         </Heading2>
@@ -71,7 +73,7 @@ const SavedVideos = () => {
                             className="icon-position"
                           />
                           <Para smaller isDarkTheme={isDarkTheme}>
-                            {formatDistanceToNow(new Date(publishedAt))}
+                            {publishedAt}
                           </Para>
                         </Div2>
                       </Div2>
@@ -86,13 +88,16 @@ const SavedVideos = () => {
     </BlackAndWhiteContext.Consumer>
   )
 
-  const renderNoResultsView = () => (
+  renderNoResultsView = () => (
     <BlackAndWhiteContext.Consumer>
       {value => {
         const {isDarkTheme} = value
         return (
           <NoResult isDarkTheme={isDarkTheme}>
-            <Image src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png" />
+            <Image
+              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
+              alt="no saved videos"
+            />
             <Heading small isDarkTheme={isDarkTheme}>
               No saved videos found
             </Heading>
@@ -105,23 +110,29 @@ const SavedVideos = () => {
     </BlackAndWhiteContext.Consumer>
   )
 
-  return (
-    <BlackAndWhiteContext.Consumer>
-      {value => {
-        const {saveList} = value
-        console.log(saveList.length)
-        return (
-          <div>
-            <Header />
-            <MainContainer>
-              <SideBar />
-              {saveList.lenght !== 0 ? renderResult() : renderNoResultsView()}
-            </MainContainer>
-          </div>
-        )
-      }}
-    </BlackAndWhiteContext.Consumer>
-  )
+  render() {
+    return (
+      <BlackAndWhiteContext.Consumer>
+        {value => {
+          const {saveList, isDarkTheme} = value
+
+          return (
+            <TestDiv isDarkTheme={isDarkTheme} data-testid="savedVideos">
+              <Header />
+              <MainContainer>
+                <SideBar />
+                <SaveListContainer isDarkTheme={isDarkTheme}>
+                  {saveList.length !== 0
+                    ? this.renderResult()
+                    : this.renderNoResultsView()}
+                </SaveListContainer>
+              </MainContainer>
+            </TestDiv>
+          )
+        }}
+      </BlackAndWhiteContext.Consumer>
+    )
+  }
 }
 
 export default SavedVideos

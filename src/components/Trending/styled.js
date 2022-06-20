@@ -4,10 +4,10 @@ export const MainContainer = styled.div`
   display: flex;
 `
 
-export const GamingContainer = styled.div`
+export const TrendingContainer = styled.div`
   display: flex;
   width: 100%;
-  background-color: ${props => (props.isDarkTheme ? '#0f0f0f ' : '#f9f9f9')};
+  background-color: ${props => (props.isDarkTheme ? '#0f0f0f' : '#f9f9f9')};
   min-height: 100vh;
   flex-direction: column;
 `
@@ -39,38 +39,40 @@ export const Container2 = styled.ul`
   background-color: ${props => (props.isDarkTheme ? 'black' : '#f4f4f4')};
   margin-top: 0px;
   gap: 20px;
-  padding: 30px 50px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
 `
+
 export const ListItem = styled.li`
   list-style-type: none;
-  align-self: flex-start;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-top: 10px;
+  gap: 20px;
 `
 
 export const Image = styled.img`
-  width: 230px;
-  height: 350px;
+  width: 300px;
+`
+export const Div2 = styled.div`
+  display: ${props => (props.flex ? 'flex' : null)};
+  align-items: ${props => (props.flex ? 'center' : null)};
+  gap: ${props => (props.flex ? '5px' : null)};
+  align-self: ${props => (props.flexstart ? 'flex-start' : null)};
 `
 
 export const Heading2 = styled.p`
+  color: ${props => (props.isDarkTheme ? 'white' : 'black')};
   font-family: 'Roboto';
-  font-size: 15px;
-  font-weight: bold;
-  color: ${props => (props.isDarkTheme ? 'black' : '#f4f4f4')};
+  font-size: ${props => (props.small ? '20px' : '20px')};
+  font-weight: ${props => (props.small ? 500 : null)};
 `
 
 export const Para = styled.p`
-  font-family: 'Roboto';
-  font-size: 15px;
-
   color: ${props => (props.isDarkTheme ? '#616e7c' : '#7e858e')};
+  font-family: 'Roboto';
+  font-size: ${props => (props.smaller ? '15px' : '30px')};
+  margin-top: ${props => (props.margin ? '0px' : null)};
 `
-
-export const Div = styled.div``
-
 export const TestDiv = styled.div`
   background-color: ${props => (props.isDarkTheme ? '#0f0f0f' : '#f9f9f9')};
 `

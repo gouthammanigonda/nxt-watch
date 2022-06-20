@@ -38,7 +38,7 @@ class Login extends Component {
     const data = await response.json()
     if (response.ok) {
       const token = data.jwt_token
-      console.log(token)
+
       Cookies.set('jwt_token', token, {expires: 30, path: '/'})
       const {history} = this.props
       history.replace('/')
@@ -57,7 +57,6 @@ class Login extends Component {
   onClickLogin = event => {
     event.preventDefault()
     this.getLoginDetails()
-    console.log('clicked')
   }
 
   onChangeUsername = event => {
@@ -79,6 +78,12 @@ class Login extends Component {
   }
 
   render() {
+    const token = Cookies.get('jwt_token')
+    if (token !== undefined) {
+      const {history} = this.props
+      history.replace('/')
+    }
+
     return (
       <BlackNWhiteContext.Consumer>
         {value => {
@@ -97,7 +102,7 @@ class Login extends Component {
           return (
             <Container isDarkTheme={isDarkTheme}>
               <Container2 isDarkTheme={isDarkTheme}>
-                <Image src={imageUrl} />
+                <Image src={imageUrl} alt="website logo" />
                 <Form onSubmit={this.onClickLogin}>
                   <Div>
                     <Label isDarkTheme={!isDarkTheme} htmlFor="username">
@@ -128,9 +133,14 @@ class Login extends Component {
                       checkbox
                       id="checkbox"
                       type="checkbox"
+                      checked={showPassword}
                       onChange={this.onChangeCheckbox}
                     />
-                    <Label isDarkTheme={!isDarkTheme} checkbox>
+                    <Label
+                      htmlFor="checkbox"
+                      isDarkTheme={!isDarkTheme}
+                      checkbox
+                    >
                       Show Password
                     </Label>
                   </Div>

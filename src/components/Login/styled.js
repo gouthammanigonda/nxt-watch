@@ -55,13 +55,14 @@ export const Button = styled.button`
   background-color: #3b82f6;
   font-family: 'Roboto';
   font-size: 15px;
-  color: white;
+  color: '#ffffff';
   padding: 10px;
   cursor: pointer;
   outline: none;
   border: 0px;
   width: 100%;
   border-radius: 5px;
+  margin-top: 20px;
 `
 export const ErrorMsg = styled.p`
   color: #ff0000;

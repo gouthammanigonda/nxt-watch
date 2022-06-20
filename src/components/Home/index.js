@@ -7,6 +7,7 @@ import Cookies from 'js-cookie'
 import {Link} from 'react-router-dom'
 import {formatDistanceToNow} from 'date-fns'
 import Loader from 'react-loader-spinner'
+import FailureView from '../FailureView'
 import Header from '../Header'
 import SideBar from '../SideBar'
 import BlackAndWhiteContext from '../../BandWContext/BlackAndWhiteContext'
@@ -78,10 +79,6 @@ class Home extends Component {
         title: each.title,
         viewCount: each.view_count,
       }))
-      const channelDetails = data.videos.map(each => ({
-        name: each.channel.name,
-        profileImageUrl: each.channel.profile_image_url,
-      }))
 
       this.setState({
         videosList: updatedData,
@@ -99,17 +96,23 @@ class Home extends Component {
   }
 
   renderAd = () => (
-    <PopUpDiv>
+    <PopUpDiv data-testid="banner">
       <Div2>
         <Image
           ad
           src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
+          alt="nxt watch logo"
         />
         <Para2 ad>Buy NXT Watch Premium prepaid plans with UPI</Para2>
         <Button>GET IT NOW</Button>
       </Div2>
       <Div2>
-        <Button icon type="button" onClick={this.onClickCloseBTN}>
+        <Button
+          data-testid="close"
+          icon
+          type="button"
+          onClick={this.onClickCloseBTN}
+        >
           <MdClose />
         </Button>
       </Div2>
@@ -146,20 +149,24 @@ class Home extends Component {
           position: 'relative',
           alignSelf: 'flex-start',
         }
-        const style2 = {textDecorator: 'none'}
+
         return (
           <BlackAndWhiteContext.Consumer>
             {value => {
               const {isDarkTheme} = value
               return (
                 <Link to={`videos/${id}`} className="link">
-                  <ListItem>
+                  <ListItem key={id}>
                     <Div4>
-                      <Image3 src={thumbnailUrl} />
+                      <Image3 src={thumbnailUrl} alt="video thumbnail" />
                     </Div4>
                     <Div4>
                       <Div5>
-                        <Image3 logo src={channel.profile_image_url} />
+                        <Image3
+                          logo
+                          src={channel.profile_image_url}
+                          alt="channel logo"
+                        />
                       </Div5>
                       <Div5>
                         <Heading2 isDarkTheme={isDarkTheme}>{title}</Heading2>
@@ -193,12 +200,15 @@ class Home extends Component {
           const {isDarkTheme} = value
           return (
             <SearchFail>
-              <Image4 src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png" />
+              <Image4
+                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
+                alt="no videos"
+              />
               <Heading2 isDarkTheme={isDarkTheme} fail>
-                No Search Results Found
+                No Search results found
               </Heading2>
               <Para3 isDarkTheme={isDarkTheme} fail>
-                Try different keywords or remove search filter
+                Try different key words or remove search filter
               </Para3>
               <Button
                 isDarkTheme={isDarkTheme}
@@ -228,30 +238,11 @@ class Home extends Component {
     </SearchFail>
   )
 
-  renderFailureView = () => (
-    <BlackAndWhiteContext.Consumer>
-      {value => {
-        const {isDarkTheme} = value
-        const imageUrl = !isDarkTheme
-          ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
-          : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
-        return (
-          <SearchFail isDarkTheme={isDarkTheme}>
-            <Image4 src={imageUrl} />
-            <Heading2 isDarkTheme={isDarkTheme} fail>
-              Oops ! Something went wrong
-            </Heading2>
-            <Para3 isDarkTheme={isDarkTheme} fail>
-              We Have Some Trouble In completing your request
-            </Para3>
-            <Button isDarkTheme={isDarkTheme} fail>
-              Retry
-            </Button>
-          </SearchFail>
-        )
-      }}
-    </BlackAndWhiteContext.Consumer>
-  )
+  onReset = () => {
+    this.getVideos()
+  }
+
+  renderFailureView = () => <FailureView onReset={this.onReset} />
 
   renderViews = () => {
     const {apiState} = this.state
@@ -273,11 +264,9 @@ class Home extends Component {
       <BlackAndWhiteContext.Consumer>
         {value => {
           const {isDarkTheme} = value
-          const imageUrl = isDarkTheme
-            ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
-            : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+
           return (
-            <MainContainer>
+            <MainContainer isDarkTheme={isDarkTheme} data-testid="home">
               <Header />
               <Container>
                 <SideBar />
@@ -290,7 +279,12 @@ class Home extends Component {
                         placeholder="search"
                         onChange={this.onChangeSearchIp}
                       />
-                      <Button icon search onClick={this.onClickSearch}>
+                      <Button
+                        data-testid="searchButton"
+                        icon
+                        search
+                        onClick={this.onClickSearch}
+                      >
                         <AiOutlineSearch
                           size={19}
                           color={isDarkTheme ? '#cccccc' : null}

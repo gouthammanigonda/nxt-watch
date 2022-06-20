@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: ${props => (props.isDarkTheme ? '#181818' : '#f9f9f9')};
 `
 
 export const Container = styled.div`
@@ -55,7 +56,7 @@ export const Div2 = styled.div`
   justify-content: space-between;
 `
 export const Container4 = styled.div`
-  background-color: ${props => (props.isDarkTheme ? 'black' : '#ebebeb')};
+  background-color: ${props => (props.isDarkTheme ? '#181818' : '#f9f9f9')};
   padding: 30px;
 `
 export const Div3 = styled.div`
@@ -98,7 +99,7 @@ export const Div4 = styled.div`
 
 export const Div5 = styled.div``
 
-export const Heading2 = styled.p`
+export const Heading2 = styled.h1`
   font-family: 'Roboto';
   font-size: ${props => (props.fail ? '25px' : '15px')};
   margin-top: 0px;
