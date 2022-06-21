@@ -47,9 +47,7 @@ class Home extends Component {
   state = {
     closeInActive: true,
     searchIp: '',
-    rerender: false,
     videosList: [],
-    retry: false,
     apiState: apiStatusConstants.initial,
   }
 
@@ -126,16 +124,11 @@ class Home extends Component {
   }
 
   onClickSearch = () => {
-    this.setState(
-      {
-        rerender: true,
-      },
-      this.getVideos,
-    )
+    this.getVideos()
   }
 
   onClickRetry = () => {
-    this.setState({retry: true}, this.getVideos)
+    this.getVideos()
   }
 
   renderSearchResults = () => {

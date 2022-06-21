@@ -41,7 +41,6 @@ class VideoItemDetail extends Component {
     channel: [],
     isBtnActiveLike: false,
     isBtnActiveDislike: false,
-    isBtnActiveSave: false,
     apiStatus: apiStatusConstants.initial,
   }
 
@@ -127,7 +126,7 @@ class VideoItemDetail extends Component {
     const {
       videoDetails,
       channel,
-      isBtnActiveSave,
+
       isBtnActiveLike,
       isBtnActiveDislike,
     } = this.state
@@ -146,7 +145,19 @@ class VideoItemDetail extends Component {
     return (
       <BlackAndWhiteContext.Consumer>
         {value => {
-          const {isDarkTheme, onAddOrRemoveList} = value
+          const {
+            isDarkTheme,
+            onAddAndRemoveList,
+            isSaved,
+            isSaveBtnActive,
+          } = value
+
+          let isBtnActiveSave = isSaved
+          if (isSaveBtnActive === true) {
+            isBtnActiveSave = true
+          } else {
+            isBtnActiveSave = false
+          }
 
           const style = {
             position: 'relative',
@@ -163,15 +174,8 @@ class VideoItemDetail extends Component {
             viewCount,
           }
 
-          const onClickSaveBTN = () => {
-            this.setState(prevState => ({
-              isBtnActiveSave: !prevState.isBtnActiveSave,
-            }))
-            onAddOrRemoveList(
-              !isBtnActiveSave,
-              dataToSaveList,
-              dataToSaveList.id,
-            )
+          const onClickSave = () => {
+            onAddAndRemoveList(dataToSaveList, dataToSaveList.id)
           }
 
           const style2 = {
@@ -220,7 +224,7 @@ class VideoItemDetail extends Component {
                     </Button>
                   </Div>
                   <Div>
-                    <Button onClick={onClickSaveBTN}>
+                    <Button onClick={onClickSave}>
                       <MdPlaylistAdd
                         color={!isBtnActiveSave ? '#64748b' : '#2563eb'}
                         size={18}

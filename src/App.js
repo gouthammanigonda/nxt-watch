@@ -16,6 +16,8 @@ class App extends Component {
   state = {
     isDarkTheme: false,
     saveList: [],
+    isSaved: false,
+    isSaveBtnActive: false,
   }
 
   changeTheme = () => {
@@ -24,36 +26,40 @@ class App extends Component {
     }))
   }
 
-  onAddOrRemoveList = (isActive, item, id) => {
+  onAddAndRemoveList = (item, id) => {
+    this.setState(prevState => ({
+      isSaveBtnActive: !prevState.isSaveBtnActive,
+    }))
     const {saveList} = this.state
 
-    if (isActive) {
-      const present = saveList.filter(each => each.id === id)
-      const isSaved = present.length !== 0
-      if (present.length === 0) {
-        this.setState(prevState => ({
-          saveList: [...prevState.saveList, item],
-        }))
-      }
+    const present = saveList.filter(each => each.id === id)
+    const isSaved = present.length !== 0
+    if (present.length === 0) {
+      this.setState(prevState => ({
+        saveList: [...prevState.saveList, item],
+        isSaved,
+      }))
     } else {
       const filteredList = saveList.filter(each => each.id !== item.id)
       this.setState({
         saveList: filteredList,
-        isSaved: false,
+        isSaved,
       })
     }
   }
 
   render() {
-    const {isDarkTheme, saveList} = this.state
+    const {isDarkTheme, saveList, isSaved, isSaveBtnActive} = this.state
 
     return (
       <BlackAndWhiteContext.Provider
         value={{
           isDarkTheme,
           saveList,
+          isSaved,
+          isSaveBtnActive,
           changeTheme: this.changeTheme,
-          onAddOrRemoveList: this.onAddOrRemoveList,
+          onAddAndRemoveList: this.onAddAndRemoveList,
         }}
       >
         <>
