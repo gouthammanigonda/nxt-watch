@@ -162,7 +162,7 @@ class Home extends Component {
                         />
                       </Div5>
                       <Div5>
-                        <Heading2 isDarkTheme={isDarkTheme}>{title}</Heading2>
+                        <Para3 isDarkTheme={isDarkTheme}>{title}</Para3>
                         <Para3 isDarkTheme={isDarkTheme}>{channel.name}</Para3>
                         <Div4 column>
                           <Para3 isDarkTheme={isDarkTheme}>
@@ -276,6 +276,7 @@ class Home extends Component {
                         data-testid="searchButton"
                         icon
                         search
+                        type="button"
                         onClick={this.onClickSearch}
                       >
                         <AiOutlineSearch

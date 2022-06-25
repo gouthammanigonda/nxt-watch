@@ -32,7 +32,6 @@ class Gaming extends Component {
   state = {
     gamingList: [],
     apiState: apiStatusConstants.initial,
-    reset: false,
   }
 
   componentDidMount() {

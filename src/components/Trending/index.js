@@ -35,7 +35,6 @@ class Trending extends Component {
   state = {
     trendingList: [],
     apiState: apiStatusConstants.initial,
-    reset: false,
   }
 
   componentDidMount() {
